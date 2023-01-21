@@ -59,7 +59,7 @@ Below the schemas for the ACCOUNT and ACCOUNT_BALANCE Relations (Tables):
    1. Your .csv files (your Tables) should show the updated values (if an operation managed to get executed)
    2. Your Logging & Rollback Data Structure should show what transaction(s) would need to be reversed (roll-back).
 
-**Bonus Task (5 extra points)**
+**Bonus Task (3 extra points)**
 
 With regard to fixing database inconsistencies that may have been introduced because of an unsuccessful logic transaction where the first operation (withdrawal) was completed, but not the second one (adding the money to savings), you could chose to:
 - show the database "as is" -the tables/relations-, AND
