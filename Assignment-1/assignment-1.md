@@ -106,8 +106,10 @@ Please select your language among those listed below:
 Due Date: **14/Feb/2023 at 11:59PM**
 
 You could post your work three different ways:
-- Using this GitHub Repo (kindly post your code to the folder "YourCode". This is the **preferred option**), or
+- Using this GitHub Repo (kindly post your code to the folder "YourCode"), or
 - Using the D2L option available to all students, or
 - Using both, the GitHub Repo and D2L
 
 Note: only **one** member of the team needs to post the work. Make sure all the names of the members of each team are clearly referenced in your submission.
+
+Some students' feedback points towards a preference for submitting work through D2L. We will clarify a-way-forward during one of our lnext ectures.
