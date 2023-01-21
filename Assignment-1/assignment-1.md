@@ -112,4 +112,4 @@ You could post your work three different ways:
 
 Note: only **one** member of the team needs to post the work. Make sure all the names of the members of each team are clearly referenced in your submission.
 
-Some students' feedback points towards a preference for submitting work through D2L. We will clarify a-way-forward during one of our lnext ectures.
+Some students' feedback points towards a preference for submitting work through D2L. We will clarify a-way-forward during one of our next lectures.
