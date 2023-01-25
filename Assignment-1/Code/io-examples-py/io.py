@@ -5,7 +5,7 @@ def myreader(filename:str):
         reader = csv.reader(f)
         your_list = list(reader)
 
-    print(your_list)
+    print('list', your_list)
 
 def mywriter(filename:str, mylist:list):
     with open(filename, 'w', encoding='UTF8', newline='') as f:
