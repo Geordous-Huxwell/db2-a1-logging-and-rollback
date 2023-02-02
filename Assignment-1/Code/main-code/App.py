@@ -2,11 +2,52 @@
 import csv
 import uuid
 from datetime import datetime
+from tabulate import tabulate
 
-log = []
+log = {}
 customer_data = []
 account_data = []
 account_balance_data = []
+
+class Log2:
+    def __init__(self,id , ):
+        self.trans_id= '123FakeID'
+        self.sub_trans1 = self.SubTrans1()
+        self.sub_trans2 = self.subTrans2()
+        # self.commit= self.commitStatus()
+        self.commit='YAYAY'
+    def show(self):
+        print ('id:', self.trans_id)
+        print ('subTrans1:', self.trans_id)
+        print ('subTrans2:', self.trans_id)
+        print ('commitStatus:', self.trans_id)
+class SubTrans1:
+    def __init__(self):
+        self.id = 'subID45564'
+        self.type = 'withdraw'
+        self.details= 'details'
+        self.sucess = 'success'
+    def display(self):
+        print ('Id:', self.id)
+        print ('Type:', self.type)
+        print ('Details:', self.details)
+        print ('Complete:', self.sucess)
+class SubTrans2:
+    def __init__(self):
+        self.id = 'subID45564'
+        self.type = 'withdraw'
+        self.details= 'details'
+        self.sucess = 'success'
+    def display(self):
+        print ('Id:', self.id)
+        print ('Type:', self.type)
+        print ('Details:', self.details)
+        print ('Complete:', self.sucess)
+
+#makes a object thing 
+# testy= Log2()
+# testy.show()
+
 
 def file_reader(tablename, filepath): #def is a function definition. so function file_reader(parameter, parameter)
     global customer_data, account_data, account_balance_data  #setting global variables 
@@ -64,41 +105,65 @@ def deposit(acct_id, amount):
             account[1] = account[1] + amount
             return
     print('invalid account id')
-    logger(from_acct_id, before_image, False, "invalid deposit account id")
-
+    raise Exception('invalid deposit account id')
+    
 
 def executeTransfer(from_acct_id, to_acct_id, amount):
     global account_balance_data
+    
     before_image = account_balance_data
     from_acct_balance = getAccountBalanceById(from_acct_id)
 
     if from_acct_balance > amount: #if the balance of money in your account your taking from is greater then the amount then
-        withdraw(from_acct_id, amount) # send to the withdraw function.
-        deposit(to_acct_id, amount) 
-        # print('after trans: ', account_balance_data)
+        try: 
+            withdraw(from_acct_id, amount) # send to the withdraw function.
+        except Exception as msg: 
+            print('withdraw failed')
+            logger(from_acct_id, before_image, False, msg)
+            return False 
+        
+        try: 
+            deposit(to_acct_id, amount) 
+        except Exception as msg: 
+            print('deposit failed')
+            logger(from_acct_id, before_image, False, msg)
+            return False
+
         logger(from_acct_id, before_image, True, "success")
         return True
     else:
         logger(from_acct_id, before_image, False, "insufficient funds")
         return False
+
 # this function logs all the different subtransactions. so all actions being taken will be 
 # recorded in the log via this function being called. 
 def logger(acct_id, before_image, trans_completed, note):
     global log
-    transaction_id = uuid.uuid1() # uuid is a python library that generates a random id 
+    transaction_id = uuid.uuid1().int # uuid is a python library that generates a random id 
     transaction_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S") # this just gets the time of the transaction
     
-    log.append({'transID':transaction_id, 
-                'table_name':'account_balance',
-                'operation':'update',
-                'attribute_name':'balance',
-                'trans_time':transaction_time, 
-                'accountID':acct_id, 
-                'before_image':before_image,
-                'after_image':account_balance_data,
-                'trans_completed':trans_completed,
-                'note':note})
-
+    # log.append({'transID':[transaction_id, tabulate(account_data)], 
+    #             'table_name':['account_balance', 2],
+    #             'operation':['update', 2],
+    #             'attribute_name':['balance', 2],
+    #             'trans_time':[transaction_time, 2], 
+    #             'accountID':[acct_id, 2], 
+    #             'before_image':[before_image, 2],
+    #             'after_image':[account_balance_data, 2],
+    #             'trans_completed':[trans_completed, 2],
+    #             'note':[note, 2]})
+    
+    log[transaction_id] = {
+        # 'transID':transaction_id , 
+                                'table_name':'account_balance',
+                                'operation':'update',
+                                'attribute_name':'balance',
+                                'trans_time':transaction_time,
+                                'accountID':acct_id, 
+                                'before_image':before_image,
+                                # 'after_image':account_balance_data,
+                                'trans_completed':trans_completed, 
+                                'note':note, }
 # these are all just reading different files in to get there data
 #file_reader('customer','Assignment-1/Data-Assignment-1/csv/customer.csv')
 file_reader('customer','Data-Assignment-1/csv/customer.csv') 
@@ -119,10 +184,10 @@ def success_driver():
     chequing_bal = getAccountBalanceById(chequing_acct)
     savings_bal = getAccountBalanceById(savings_acct)
 
-    print(getAccountBalanceById(chequing_acct))
+    # print(getAccountBalanceById(chequing_acct))
 
     executeTransfer(chequing_acct, savings_acct, 100000)
-    print(log)
+    # print(log)
 
 def fail_driver():
     customer_accts = getAccountsByCustId('3')
@@ -130,10 +195,10 @@ def fail_driver():
     savings_acct = 000000 #invalid account id
     
     executeTransfer(chequing_acct, savings_acct, 100000)
-    print(log)
+    # print(log)
 
 #fail_driver()
 
-success_driver()
+# success_driver()
 
 # print original contents of DB 
