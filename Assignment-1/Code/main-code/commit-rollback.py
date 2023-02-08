@@ -90,16 +90,27 @@ def main():
 
 
     with open("file.txt", "w") as f:
-        f.write("Logging sub-system status")
-        count = 0
+        f.write("\u0332".join("Logging sub-system status"))
+        count = 1
         for arrayOb in range(0,len(App.log)):
-            f.write(f'\nLog {count}:\n')
+            # f.write(f'\n\nLog {count}:\n')
+            f.write('\n\nTransaction:\n')
             counter= 0
             for key in App.log[arrayOb]:
-                if (counter>0):
-                    f.write(f'\t{key}:\t {App.log[arrayOb][key]}\n')
+
+                f.write(f'{key}:\t\n')
+                if key=='Transaction_ID' :
+                    f.write(f'{App.log[arrayOb][key]}\n')
+                elif key=='sub_transaction1':
+                    for ob in App.log[arrayOb]['sub_transaction1']:
+                        f.write(f'\t{ob}:\t{App.log[arrayOb][key][ob]}\n')
+                elif key == 'sub_transaction2':
+                    for ob in App.log[arrayOb]['sub_transaction2']:
+                        f.write(f'\t{ob}:\t{App.log[arrayOb][key][ob]}\n')
                 else:
-                    f.write(f'{key}:\t {App.log[arrayOb][key]}\n')
+                    f.write(f'\t{App.log[arrayOb][key]}\n')
+                    # for ob in App.log[arrayOb]['before_image']:
+                    #    print("\t",App.log[arrayOb]['before_image'][ob])
                 counter += 1
             count+= 1
 ## this function is called to print out the current status of the Log
@@ -121,9 +132,9 @@ def printLog():
                     for ob in App.log[arrayOb]['sub_transaction2']:
                         print("\t",ob,":\t",App.log[arrayOb]['sub_transaction2'][ob])
                 else:
-                    print("\t",ob,":\t",App.log[arrayOb]['before_image'])
+                    print("\t",App.log[arrayOb]['before_image'])
                     # for ob in App.log[arrayOb]['before_image']:
-                    #     print("\t",ob,":\t",App.log[arrayOb]['before_image'][ob])
+                    #    print("\t",App.log[arrayOb]['before_image'][ob])
                 counter1 += 1
             count1+=1
     else:

@@ -1,13 +1,50 @@
-Logging sub-system status
-Log 0:
-Transaction_ID:	 255883049635255065739112577098566276497
-	sub_transaction1:	 {'transID': 255883130447980830288736922513395619217, 'table_name': 'account_balance', 'operation': 'update', 'attribute_name': 'balance', 'trans_time': '08/02/2023 11:09:38', 'accountID': '312345c', 'trans_completed': True, 'note': 'success'}
-	sub_transaction2:	 {'transID': 255883208883861719410431140121906451857, 'table_name': 'account_balance', 'operation': 'update', 'attribute_name': 'balance', 'trans_time': '08/02/2023 11:09:38', 'accountID': '312345c', 'trans_completed': True, 'note': 'success'}
-	before_image:	 [['112345c', 3425], ['212345c', 2119], ['312345c', 786324], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 987613], ['412345s', 65734], ['512345s', 98346]]
-	sub_transaction3:	 {'transID': 255884384629793431093201028314129438097, 'table_name': 'account_balance', 'operation': 'update', 'attribute_name': 'balance', 'trans_time': '08/02/2023 11:09:38', 'accountID': '312345c', 'trans_completed': True, 'note': 'success'}
-	sub_transaction4:	 {'transID': 255884415528776811656292689796270069137, 'table_name': 'account_balance', 'operation': 'update', 'attribute_name': 'balance', 'trans_time': '08/02/2023 11:09:38', 'accountID': '312345c', 'trans_completed': False, 'note': 'invalid deposit account id'}
+L̲o̲g̲g̲i̲n̲g̲ ̲s̲u̲b̲-̲s̲y̲s̲t̲e̲m̲ ̲s̲t̲a̲t̲u̲s
 
-Log 1:
-Transaction_ID:	 255884340262022423105171975929517249937
-	sub_transaction1:	 {}
-	sub_transaction2:	 {}
+Transaction:
+Transaction_ID:	
+260056441424879118049827897961178142097
+sub_transaction1:	
+	transID:	260056762298937300820395151814177002897
+	table_name:	account_balance
+	operation:	update
+	attribute_name:	balance
+	trans_time:	08/02/2023 11:45:31
+	accountID:	312345c
+	trans_completed:	True
+	note:	success
+sub_transaction2:	
+	transID:	260056929470360205918147474191912211857
+	table_name:	account_balance
+	operation:	update
+	attribute_name:	balance
+	trans_time:	08/02/2023 11:45:31
+	accountID:	312345c
+	trans_completed:	True
+	note:	success
+before_image:	
+	[['112345c', 3425], ['212345c', 2119], ['312345c', 786324], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 987613], ['412345s', 65734], ['512345s', 98346]]
+
+
+Transaction:
+Transaction_ID:	
+260058709727171901437813201124476261777
+sub_transaction1:	
+	transID:	260058751718098033997912125702769939857
+	table_name:	account_balance
+	operation:	update
+	attribute_name:	balance
+	trans_time:	08/02/2023 11:45:31
+	accountID:	312345c
+	trans_completed:	True
+	note:	success
+sub_transaction2:	
+	transID:	260058797670432292271227929958261134737
+	table_name:	account_balance
+	operation:	update
+	attribute_name:	balance
+	trans_time:	08/02/2023 11:45:31
+	accountID:	312345c
+	trans_completed:	False
+	note:	invalid deposit account id
+before_image:	
+	[['112345c', 3425], ['212345c', 2119], ['312345c', 686324], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 1087613], ['412345s', 65734], ['512345s', 98346]]
