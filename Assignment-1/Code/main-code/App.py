@@ -10,6 +10,7 @@ customer_data = []
 account_data = []
 account_balance_data = []
 sub_trans_counter = 1
+transaction_counter = 0 #read log file to get initial value by reading num rows
 
 def file_reader(tablename, filepath):
     global customer_data, account_data, account_balance_data
@@ -81,6 +82,7 @@ def executeTransfer(from_acct_id, to_acct_id, amount):
         try:
             deposit(to_acct_id, amount)
             logger(from_acct_id, before_image, True, "success")
+
         except Exception as msg:
             print('deposit failed')
             logger(from_acct_id, before_image, False, msg)
@@ -92,7 +94,7 @@ def executeTransfer(from_acct_id, to_acct_id, amount):
         return False
 
 def logger(acct_id, before_image, trans_completed, note):
-    global log, sub_trans_counter
+    global log, sub_trans_counter, transaction_counter
 
     transaction_id = uuid.uuid1().int
     transaction_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -100,7 +102,7 @@ def logger(acct_id, before_image, trans_completed, note):
     sub_transaction = f"sub_transaction{sub_trans_counter}"
     # will need solve the index being hardcoded if we want our logger to be persistent (not be overwritten everytime the programs runs)
     # TODO: make subtransaction class
-    log[0][sub_transaction] = {
+    log[transaction_counter][sub_transaction] = {
                 'transID':transaction_id, 
                 'table_name':'account_balance',
                 'operation':'update',
@@ -113,13 +115,13 @@ def logger(acct_id, before_image, trans_completed, note):
                 'note': str(note)
                 }
     if sub_trans_counter == 1:
-        log[0]['before_image'] = copy.deepcopy(before_image)
+        log[transaction_counter]['before_image'] = copy.deepcopy(before_image)
     
     sub_trans_counter += 1
  
 
 def commitCheck(transaction_id):
-    global log
+    global log, transaction_counter, sub_trans_counter
     for transaction in log:
         if transaction['Transaction_ID'] == transaction_id:
 
@@ -127,6 +129,10 @@ def commitCheck(transaction_id):
                 commit()
             else:
                 rollback(transaction_id)            
+    
+    transaction_counter += 1
+    sub_trans_counter = 1
+    
 
 def commit():
     print("commit")
@@ -181,7 +187,7 @@ def fail_driver():
 
 fail_driver()
 
-# success_driver()
+success_driver()
 
 
 
