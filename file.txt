@@ -2,53 +2,53 @@ L̲o̲g̲g̲i̲n̲g̲ ̲s̲u̲b̲-̲s̲y̲s̲t̲e̲m̲ ̲s̲t̲a̲t̲u̲s
 
 Transaction:
 Transaction_ID:	
-182154745329593695499808747727728308376
+141212346408256646174486429829700720017
 sub_transaction1:	
-	transID:	182154745408821858015992181712485511320
+	transID:	141212389983746029019872106278873404817
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 14:21:22
+	trans_time:	08/02/2023 13:37:33
 	accountID:	312345c
 	trans_completed:	True
 	note:	success
 sub_transaction2:	
-	transID:	182154745488050020530536305432879853720
+	transID:	141212434351517037007901158663485592977
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 14:21:22
+	trans_time:	08/02/2023 13:37:33
 	accountID:	312345c
 	trans_completed:	True
 	note:	success
 before_image:	
-	[['112345c', 3425], ['212345c', 2119], ['312345c', 786324], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 987613], ['412345s', 65734], ['512345s', 98346]]
+	[['112345c', 3425], ['212345c', 2119], ['312345c', 999300000], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 2887613], ['412345s', 65734], ['512345s', 98346]]
 commit_status:	
 	True
 
 
 Transaction:
 Transaction_ID:	
-182199075229540001711875731012721995928
+141216886974250338663673915833494476177
 sub_transaction1:	
-	transID:	182199075308768164223826062822727643288
+	transID:	141216925796049970653199336670030140817
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 14:21:22
+	trans_time:	08/02/2023 13:37:33
 	accountID:	312345c
 	trans_completed:	True
 	note:	success
 sub_transaction2:	
-	transID:	182199075387996326741527209881908703384
+	transID:	141216967786976103213298261248323818897
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 14:21:22
+	trans_time:	08/02/2023 13:37:33
 	accountID:	312345c
 	trans_completed:	False
 	note:	invalid deposit account id
 before_image:	
-	[['112345c', 3425], ['212345c', 2119], ['312345c', 686324], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 1087613], ['412345s', 65734], ['512345s', 98346]]
+	[['112345c', 3425], ['212345c', 2119], ['312345c', 999200000], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 2987613], ['412345s', 65734], ['512345s', 98346]]
 commit_status:	
 	False

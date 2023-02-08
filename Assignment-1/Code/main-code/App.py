@@ -133,10 +133,12 @@ def commitCheck(transaction_id):
 
             if transaction['sub_transaction1'].get('trans_completed') == True and transaction['sub_transaction2'].get('trans_completed') == True:
                 commit()
-                log[transaction_counter]['commit_status'] = True
+                log[transaction_counter]['commit_status']= True
             else:
-                rollback(transaction_id)            
-                log[transaction_counter]['commit_status'] = False
+                print("\tafter withdraw success but before Rollback(Contents of Account_Balance): ")
+                print(tabulate(account_balance_data, headers=["Account Number", "Balance"],tablefmt="grid"))
+                rollback(transaction_id)   
+                log[transaction_counter]['commit_status']= False      
     
     transaction_counter += 1
     # reset the sub transaction counter for the next block transaction
@@ -145,12 +147,17 @@ def commitCheck(transaction_id):
 
 def commit():
     """commits the transaction back to secondary memory (csv files)"""
-    with open('testy.csv', 'w', newline='') as csvfile:
-        twriter = csv.writer(csvfile, delimiter=',',
-                            quotechar=',', quoting=csv.QUOTE_MINIMAL)
-        for row in account_balance_data:
-            twriter.writerow(row)
+    global db
+    fileNames=db.keys()
     
+    for fileName in fileNames:
+        with open(f'Assignment-1/Data-Assignment-1/csv/{fileName}.csv', 'w', newline='') as csvfile:
+            twriter = csv.writer(csvfile, delimiter=',',
+                            quotechar=',', quoting=csv.QUOTE_MINIMAL)
+            currList = db[fileName]
+            for row in currList:
+                twriter.writerow(row)
+    print("commited!")
 
 def rollback(transaction_id):
     """rolls back the transaction to the before image of the database"""
@@ -163,8 +170,8 @@ def rollback(transaction_id):
 file_reader('customer','Assignment-1/Data-Assignment-1/csv/customer.csv')
 file_reader('account_balance','Assignment-1/Data-Assignment-1/csv/account-balance.csv')
 file_reader('account','Assignment-1/Data-Assignment-1/csv/account.csv')
-# assign the read in data to a dictionary
-db = {'customer_data': customer_data, 'account_data': account_data, 'account_balance_data': account_balance_data}
+# assign the red in data to the db dictionary
+db = {'customer': customer_data, 'account': account_data, 'account-balance': account_balance_data}
 
 
 
@@ -177,8 +184,8 @@ def success_driver():
     chequing_acct = customer_accts[1]
     savings_acct = customer_accts[2]
 
-    chequing_bal = getAccountBalanceById(chequing_acct)
-    savings_bal = getAccountBalanceById(savings_acct)
+    # chequing_bal = getAccountBalanceById(chequing_acct)
+    # savings_bal = getAccountBalanceById(savings_acct)
     amount = 100000
 
     executeTransfer(chequing_acct, savings_acct, amount)
