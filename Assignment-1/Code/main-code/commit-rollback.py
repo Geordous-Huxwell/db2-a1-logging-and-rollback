@@ -1,7 +1,7 @@
 import App 
 from tabulate import tabulate
 from decimal import Decimal
-
+import numpy as np
 import pandas 
 # import 'your-code.py' as app;
 
@@ -25,7 +25,12 @@ def main():
     accDB= App.account_balance_data
     print(tabulate(accDB, headers=["Account Number", "Balance"],tablefmt="grid"))
     print("\n\nPrint current status of Log Sub-system\n")
-    print ( tabulate(App.log, headers=["Transaction ID", "Table Name","Operation","Attribute Name","Transaction Time", "Account ID", "Before Transaction", "After Transaction" , "Transaction Complete", "Note"],tablefmt="grid"))
+    print("--------------------lalalla- I believe this should be empty to begin with?---------------")
+    printLog()
+    print("--------------------lalalla----------------")
+    # print (tabulate(App.log, headers=["Transaction ID", "Table Name","Operation","Attribute Name","Transaction Time", "Account ID", "Before Transaction", "After Transaction" , "Transaction Complete", "Note"], tablefmt="grid"))
+
+
 
     # Transaction Block 1: Successful
     print("\n\nBLOCK TRANSACTION 1")
@@ -47,14 +52,8 @@ def main():
     print(tabulate(accDB2, headers=["Account Number", "Balance"],tablefmt="grid"))
     
     print("Print current status of Log Sub-system\n")
-    print("---------------------------------------------")
-    for arrayOb in range(0,len(App.log)):
-        print("New Log:\n")
-        for key in App.log[arrayOb]:
-            print(key,":\t",App.log[arrayOb][key])
-        
-
-
+    print("------------------After BLOCK TRANSACTION 1---------------------------")
+    printLog()
     print("---------------------------------------------")
     
 
@@ -81,9 +80,15 @@ def main():
     print("BLOCK TRANSACTION 2")
     print("Subtract money from one account (Same Transaction than before)")
     print("Failure occurs!!!!!!! ACTION REQUIRED")
+    App.fail_driver()
     print("Must either AUTOMATICALLY Roll-back Database to a state of equilibrium (Bonus), OR\nSTOP Operations and show: (a) Log-Status, and (b) Databases Contents.\n")
     print("\nThe Log Sub-system contents should show the necessary operations needed to fix the situation!")
-    
+    print("Print current status of Log Sub-system\n")
+    print("------------------After BLOCK TRANSACTION 2---------------------------")
+    printLog()
+    print("---------------------------------------------")
+
+
     with open("file.txt", "w") as f:
         f.write("Logging sub-system status")
         count = 0
@@ -96,5 +101,32 @@ def main():
                 else:
                     f.write(f'{key}:\t {App.log[arrayOb][key]}\n')
                 counter += 1
-        count+= 1
+            count+= 1
+## this function is called to print out the current status of the Log
+def printLog():
+    if App.log:
+        count1 =0
+        for arrayOb in range(0,len(App.log)):
+            print("New Log:\n")
+            counter1 =0
+            for key in App.log[arrayOb]:
+                # print(key,":\t",App.log[arrayOb][key])
+                print(key,":\t")
+                if key=='Transaction_ID' :
+                    print(App.log[arrayOb]['Transaction_ID'])
+                elif key=='sub_transaction1':
+                    for ob in App.log[arrayOb]['sub_transaction1']:
+                        print("\t",ob,":\t",App.log[arrayOb]['sub_transaction1'][ob])
+                elif key == 'sub_transaction2':
+                    for ob in App.log[arrayOb]['sub_transaction2']:
+                        print("\t",ob,":\t",App.log[arrayOb]['sub_transaction2'][ob])
+                else:
+                    print("\t",ob,":\t",App.log[arrayOb]['before_image'])
+                    # for ob in App.log[arrayOb]['before_image']:
+                    #     print("\t",ob,":\t",App.log[arrayOb]['before_image'][ob])
+                counter1 += 1
+            count1+=1
+    else:
+        print("Log is empty!")
 main()
+

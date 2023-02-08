@@ -1,4 +1,5 @@
 # Your Code
+import copy
 import csv
 import uuid
 from datetime import datetime
@@ -8,6 +9,7 @@ log = []
 customer_data = []
 account_data = []
 account_balance_data = []
+sub_trans_counter = 1
 
 def file_reader(tablename, filepath):
     global customer_data, account_data, account_balance_data
@@ -38,10 +40,10 @@ def getAccountBalanceById(acct_id):
 
 def withdraw(acct_id, amount):
     for balance in account_balance_data:
+        print(balance[0], acct_id)
         if balance[0] == acct_id:
             balance[1] = balance[1] - amount
             return
-    print('invalid account id')
     raise Exception('invalid withdrawal account id')
 
 def deposit(acct_id, amount):
@@ -61,49 +63,91 @@ def executeTransfer(from_acct_id, to_acct_id, amount):
                 'sub_transaction1':{},
                 'sub_transaction2':{}
                 })
-    before_image = account_balance_data
+    before_image = copy.deepcopy(account_balance_data)
+    print('intitial account balance', before_image[2])
     from_acct_balance = getAccountBalanceById(from_acct_id)
 
     if from_acct_balance > amount:
         try:
             withdraw(from_acct_id, amount)
+            logger(from_acct_id, before_image, True, "success")
+            print('post-withdraw account balance', account_balance_data[2])
+
         except Exception as msg:
             print('withdraw failed')
             logger(from_acct_id, before_image, False, msg)
             return False
-        
-        before_image = account_balance_data
+
         try:
             deposit(to_acct_id, amount)
+            logger(from_acct_id, before_image, True, "success")
         except Exception as msg:
             print('deposit failed')
             logger(from_acct_id, before_image, False, msg)
             return False
         
-        logger(from_acct_id, before_image, True, "success")
         return True
     else:
         logger(from_acct_id, before_image, False, "insufficient funds")
         return False
 
 def logger(acct_id, before_image, trans_completed, note):
-    global log
+    global log, sub_trans_counter
+
     transaction_id = uuid.uuid1().int
     transaction_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     
-    log[0]["sub_transaction1"] = {
+    sub_transaction = f"sub_transaction{sub_trans_counter}"
+    # will need solve the index being hardcoded if we want our logger to be persistent (not be overwritten everytime the programs runs)
+    # TODO: make subtransaction class
+    log[0][sub_transaction] = {
                 'transID':transaction_id, 
                 'table_name':'account_balance',
                 'operation':'update',
                 'attribute_name':'balance',
                 'trans_time':transaction_time, 
                 'accountID':acct_id, 
-                'before_image':before_image,
-                'after_image':account_balance_data,
+                # 'before_image':before_image,
+                # 'after_image':account_balance_data,
                 'trans_completed':trans_completed,
                 'note': str(note)
                 }
+    if sub_trans_counter == 1:
+        log[0]['before_image'] = copy.deepcopy(before_image)
+    
+    sub_trans_counter += 1
+ 
 
+def commitCheck(transaction_id):
+    global log
+    for transaction in log:
+        if transaction['Transaction_ID'] == transaction_id:
+
+            if transaction['sub_transaction1'].get('trans_completed') == True and transaction['sub_transaction2'].get('trans_completed') == True:
+                commit()
+            else:
+                rollback(transaction_id)            
+
+def commit():
+    print("commit")
+    with open('testy.csv', 'w', newline='') as csvfile:
+        twriter = csv.writer(csvfile, delimiter=',',
+                            quotechar=',', quoting=csv.QUOTE_MINIMAL)
+        for row in account_balance_data:
+            twriter.writerow(row)
+
+def rollback(transaction_id):
+    global log, account_balance_data
+    # print("rollback")
+    # print('failing subtrans id: ', subtrans_id)
+    for transaction in log:
+        # print('transaction', transaction)
+        if transaction['Transaction_ID'] == transaction_id:
+            print('before image',transaction['before_image'])
+            account_balance_data = copy.deepcopy(transaction['before_image'])
+            print('rollback account balance', account_balance_data[2])
+
+            
 
 file_reader('customer','Assignment-1/Data-Assignment-1/csv/customer.csv')
 file_reader('account_balance','Assignment-1/Data-Assignment-1/csv/account-balance.csv')
@@ -116,6 +160,7 @@ def success_driver():
     customer_accts = getAccountsByCustId('3')
     chequing_acct = customer_accts[1]
     savings_acct = customer_accts[2]
+
     chequing_bal = getAccountBalanceById(chequing_acct)
     savings_bal = getAccountBalanceById(savings_acct)
     amount = 100000
@@ -123,21 +168,27 @@ def success_driver():
 
     executeTransfer(chequing_acct, savings_acct, amount)
     print(log)
+    commitCheck(log[0]['Transaction_ID'])
+
 
 def fail_driver():
     customer_accts = getAccountsByCustId('3')
     chequing_acct = customer_accts[1]
     savings_acct = 000000 #invalid account id
     amount = 100000
+    executeTransfer(chequing_acct, savings_acct, amount)
+    print(log)
+    commitCheck(log[0]['Transaction_ID'])
 
 # Note this is going into a new testy file atm we can change after!
-def savetoCSVaccountbalance():
-    with open('testy.csv', 'w', newline='') as csvfile:
-        twriter = csv.writer(csvfile, delimiter=',',
-                            quotechar=',', quoting=csv.QUOTE_MINIMAL)
-        for row in account_balance_data:
-            twriter.writerow(row)
-savetoCSVaccountbalance()  
+ 
+
+# fail_driver()
+
+# success_driver()
+
+
+
 # Your Code
 # import csv
 # import uuid

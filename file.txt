@@ -1,5 +1,13 @@
 Logging sub-system status
 Log 0:
-Transaction_ID:	 65755695582910193490854052753958704529
-	sub_transaction1:	 {'transID': 65755705090289695202574563979232744849, 'table_name': 'account_balance', 'operation': 'update', 'attribute_name': 'balance', 'trans_time': '08/02/2023 10:01:13', 'accountID': '312345c', 'before_image': [['112345c', 3425], ['212345c', 2119], ['312345c', 686324], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 1087613], ['412345s', 65734], ['512345s', 98346]], 'after_image': [['112345c', 3425], ['212345c', 2119], ['312345c', 686324], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 1087613], ['412345s', 65734], ['512345s', 98346]], 'trans_completed': True, 'note': 'success'}
+Transaction_ID:	 255883049635255065739112577098566276497
+	sub_transaction1:	 {'transID': 255883130447980830288736922513395619217, 'table_name': 'account_balance', 'operation': 'update', 'attribute_name': 'balance', 'trans_time': '08/02/2023 11:09:38', 'accountID': '312345c', 'trans_completed': True, 'note': 'success'}
+	sub_transaction2:	 {'transID': 255883208883861719410431140121906451857, 'table_name': 'account_balance', 'operation': 'update', 'attribute_name': 'balance', 'trans_time': '08/02/2023 11:09:38', 'accountID': '312345c', 'trans_completed': True, 'note': 'success'}
+	before_image:	 [['112345c', 3425], ['212345c', 2119], ['312345c', 786324], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 987613], ['412345s', 65734], ['512345s', 98346]]
+	sub_transaction3:	 {'transID': 255884384629793431093201028314129438097, 'table_name': 'account_balance', 'operation': 'update', 'attribute_name': 'balance', 'trans_time': '08/02/2023 11:09:38', 'accountID': '312345c', 'trans_completed': True, 'note': 'success'}
+	sub_transaction4:	 {'transID': 255884415528776811656292689796270069137, 'table_name': 'account_balance', 'operation': 'update', 'attribute_name': 'balance', 'trans_time': '08/02/2023 11:09:38', 'accountID': '312345c', 'trans_completed': False, 'note': 'invalid deposit account id'}
+
+Log 1:
+Transaction_ID:	 255884340262022423105171975929517249937
+	sub_transaction1:	 {}
 	sub_transaction2:	 {}
