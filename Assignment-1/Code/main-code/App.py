@@ -6,13 +6,13 @@ from datetime import datetime
 from tabulate import tabulate
 
 log = []
+
 customer_data = []
 account_data = []
 account_balance_data = []
-db = {}
 
 sub_trans_counter = 1
-transaction_counter = 0 #read log file to get initial value by reading num rows
+transaction_counter = 0 
 
 def file_reader(tablename, filepath):
     global customer_data, account_data, account_balance_data, db
@@ -24,9 +24,7 @@ def file_reader(tablename, filepath):
         elif tablename == 'account_balance':
             account_balance_data = list(csv.reader(file))
             account_balance_data = [[row[0], int(row[1])] for row in account_balance_data]
-            # print(account_balance_data)
 
-    db = {'customer': customer_data, 'account': account_data, 'account-balance': account_balance_data}
         
 def getCustomerById(id):
     for customer in customer_data:
@@ -45,7 +43,6 @@ def getAccountBalanceById(acct_id):
 
 def withdraw(acct_id, amount):
     for balance in account_balance_data:
-        print(balance[0], acct_id)
         if balance[0] == acct_id:
             balance[1] = balance[1] - amount
             return
@@ -56,7 +53,6 @@ def deposit(acct_id, amount):
         if balance[0] == acct_id:
             balance[1] = balance[1] + amount
             return
-    print('invalid account id')
     raise Exception('invalid deposit account id')
 
 
@@ -69,17 +65,14 @@ def executeTransfer(from_acct_id, to_acct_id, amount):
                 'sub_transaction2':{}
                 })
     before_image = copy.deepcopy(account_balance_data)
-    print('intitial account balance', before_image[2])
     from_acct_balance = getAccountBalanceById(from_acct_id)
 
     if from_acct_balance > amount:
         try:
             withdraw(from_acct_id, amount)
             logger(from_acct_id, before_image, True, "success")
-            print('post-withdraw account balance', account_balance_data[2])
 
         except Exception as msg:
-            print('withdraw failed')
             logger(from_acct_id, before_image, False, msg)
             return False
 
@@ -88,7 +81,6 @@ def executeTransfer(from_acct_id, to_acct_id, amount):
             logger(from_acct_id, before_image, True, "success")
 
         except Exception as msg:
-            print('deposit failed')
             logger(from_acct_id, before_image, False, msg)
             return False
         
@@ -104,8 +96,6 @@ def logger(acct_id, before_image, trans_completed, note):
     transaction_time = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     
     sub_transaction = f"sub_transaction{sub_trans_counter}"
-    # will need solve the index being hardcoded if we want our logger to be persistent (not be overwritten everytime the programs runs)
-    # TODO: make subtransaction class
     log[transaction_counter][sub_transaction] = {
                 'transID':transaction_id, 
                 'table_name':'account_balance',
@@ -113,8 +103,6 @@ def logger(acct_id, before_image, trans_completed, note):
                 'attribute_name':'balance',
                 'trans_time':transaction_time, 
                 'accountID':acct_id, 
-                # 'before_image':before_image,
-                # 'after_image':account_balance_data,
                 'trans_completed':trans_completed,
                 'note': str(note)
                 }
@@ -131,8 +119,12 @@ def commitCheck(transaction_id):
 
             if transaction['sub_transaction1'].get('trans_completed') == True and transaction['sub_transaction2'].get('trans_completed') == True:
                 commit()
+                log[transaction_counter]['commit_status']= True
             else:
-                rollback(transaction_id)            
+                print("\tafter withdraw success but before Rollback(Contents of Account_Balance): ")
+                print(tabulate(account_balance_data, headers=["Account Number", "Balance"],tablefmt="grid"))
+                rollback(transaction_id)   
+                log[transaction_counter]['commit_status']= False      
     
     transaction_counter += 1
     sub_trans_counter = 1
@@ -140,7 +132,6 @@ def commitCheck(transaction_id):
 
 def commit():
     global db
-    print("commit")
     fileNames=db.keys()
     
     for fileName in fileNames:
@@ -150,27 +141,24 @@ def commit():
             currList = db[fileName]
             for row in currList:
                 twriter.writerow(row)
+    print("commited!")
 
 def rollback(transaction_id):
     global log, account_balance_data
-    # print("rollback")
-    # print('failing subtrans id: ', subtrans_id)
     for transaction in log:
-        # print('transaction', transaction)
         if transaction['Transaction_ID'] == transaction_id:
-            print('before image',transaction['before_image'])
             account_balance_data = copy.deepcopy(transaction['before_image'])
-            print('rollback account balance', account_balance_data[2])
-
             
-
 file_reader('customer','Assignment-1/Data-Assignment-1/csv/customer.csv')
 file_reader('account_balance','Assignment-1/Data-Assignment-1/csv/account-balance.csv')
 file_reader('account','Assignment-1/Data-Assignment-1/csv/account.csv')
+db = {'customer': customer_data, 'account': account_data, 'account-balance': account_balance_data}
+
 
 
 
 def success_driver():
+    global transaction_counter
     customer = getCustomerById('3')
     customer_accts = getAccountsByCustId('3')
     chequing_acct = customer_accts[1]
@@ -179,21 +167,20 @@ def success_driver():
     # chequing_bal = getAccountBalanceById(chequing_acct)
     # savings_bal = getAccountBalanceById(savings_acct)
     amount = 100000
-    print(getAccountBalanceById(chequing_acct))
 
     executeTransfer(chequing_acct, savings_acct, amount)
-    print(log)
-    commitCheck(log[0]['Transaction_ID'])
+    commitCheck(log[transaction_counter]['Transaction_ID'])
 
 
 def fail_driver():
+    global transaction_counter
     customer_accts = getAccountsByCustId('3')
     chequing_acct = customer_accts[1]
     savings_acct = 000000 #invalid account id
     amount = 100000
     executeTransfer(chequing_acct, savings_acct, amount)
-    print(log)
-    commitCheck(log[1]['Transaction_ID'])
+    # print(log)
+    commitCheck(log[transaction_counter]['Transaction_ID'])
 
 # This function saves the Transactions information to a file called file.txt
 def saveToLog():

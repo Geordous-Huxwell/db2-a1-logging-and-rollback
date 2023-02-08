@@ -27,7 +27,7 @@ def main():
     print("\n\nPrint current status of Log Sub-system\n")
     print("------------------Initial Status of the Log Sub-System---------------------------")
     printLog()
-    print("---------------------------------------------")
+    print("---------------------------------------------------------------------------------")
     # print (tabulate(App.log, headers=["Transaction ID", "Table Name","Operation","Attribute Name","Transaction Time", "Account ID", "Before Transaction", "After Transaction" , "Transaction Complete", "Note"], tablefmt="grid"))
 
 
@@ -38,6 +38,9 @@ def main():
     print("Add money to second one")
     print("COMMIT all your changes")
     App.success_driver()
+    # read value of sub transaction 1 note 
+    # read value of sub transaction 2 value 
+    printOutNote(0)
     print("Print Contents of Databases")
     print("\t Contents of Customers")
     cusD = App.customer_data 
@@ -58,23 +61,43 @@ def main():
     
     print("BLOCK TRANSACTION 2")
     print("Subtract money from one account (Same Transaction than before)")
+    print("\t Initial Contents of Account_Balance")
+    print(tabulate(App.account_balance_data, headers=["Account Number", "Balance"],tablefmt="grid"))
+
     print("Failure occurs!!!!!!! ACTION REQUIRED")
+   
     App.fail_driver()
     print("Must either AUTOMATICALLY Roll-back Database to a state of equilibrium (Bonus), OR\nSTOP Operations and show: (a) Log-Status, and (b) Databases Contents.\n")
     print("\nThe Log Sub-system contents should show the necessary operations needed to fix the situation!")
+    print("\t Contents of Account_Balance")
+    accDB3= App.account_balance_data
+    print(tabulate(accDB3, headers=["Account Number", "Balance"],tablefmt="grid"))
+
     print("Print current status of Log Sub-system\n")
     print("------------------After BLOCK TRANSACTION 2---------------------------")
     printLog()
     print("---------------------------------------------")
     App.saveToLog()
+    printOutNote(1)
 
+
+def printOutNote(num):
+    if App.log:
+        count1 =0
+
+        # for arrayOb in App.log:
+        print("Transaction_Id:\t",App.log[num]['Transaction_ID'])
+        print("\tSub_transaction1 - Status:\t",App.log[num]['sub_transaction1']['note'])
+        print("\tSub_Transaction2 - Status:\t",App.log[num]['sub_transaction2']['note'])
+        print("\tCommit Status:\t",App.log[num]['commit_status'])
 
 ## this function is called to print out the current status of the Log
 def printLog():
     if App.log:
         count1 =0
         for arrayOb in range(0,len(App.log)):
-            print("New Log:\n")
+            print("Log",count1+1)
+            # print("New Log:\n")
             counter1 =0
             for key in App.log[arrayOb]:
                 # print(key,":\t",App.log[arrayOb][key])
@@ -87,8 +110,10 @@ def printLog():
                 elif key == 'sub_transaction2':
                     for ob in App.log[arrayOb]['sub_transaction2']:
                         print("\t",ob,":\t",App.log[arrayOb]['sub_transaction2'][ob])
-                else:
+                elif key=='before_image':
                     print("\t",App.log[arrayOb]['before_image'])
+                elif key=='commit_status':
+                    print("\t",App.log[arrayOb]['commit_status'])
                 counter1 += 1
             count1+=1
     else:
