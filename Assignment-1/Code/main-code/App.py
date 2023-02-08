@@ -40,6 +40,7 @@ def withdraw(acct_id, amount):
     for balance in account_balance_data:
         if balance[0] == acct_id:
             balance[1] = balance[1] - amount
+            return
     print('invalid account id')
     raise Exception('invalid withdrawal account id')
 
@@ -108,9 +109,7 @@ file_reader('customer','Assignment-1/Data-Assignment-1/csv/customer.csv')
 file_reader('account_balance','Assignment-1/Data-Assignment-1/csv/account-balance.csv')
 file_reader('account','Assignment-1/Data-Assignment-1/csv/account.csv')
 
-# print(customer_data)
-# print(getCustomerById('3'))
-# print(getAccountsByCustId('3'))
+
 
 def success_driver():
     customer = getCustomerById('3')
@@ -120,7 +119,6 @@ def success_driver():
     chequing_bal = getAccountBalanceById(chequing_acct)
     savings_bal = getAccountBalanceById(savings_acct)
     amount = 100000
-
     print(getAccountBalanceById(chequing_acct))
 
     executeTransfer(chequing_acct, savings_acct, amount)
@@ -131,6 +129,15 @@ def fail_driver():
     chequing_acct = customer_accts[1]
     savings_acct = 000000 #invalid account id
     amount = 100000
+
+# Note this is going into a new testy file atm we can change after!
+def savetoCSVaccountbalance():
+    with open('testy.csv', 'w', newline='') as csvfile:
+        twriter = csv.writer(csvfile, delimiter=',',
+                            quotechar=',', quoting=csv.QUOTE_MINIMAL)
+        for row in account_balance_data:
+            twriter.writerow(row)
+savetoCSVaccountbalance()  
 # Your Code
 # import csv
 # import uuid
