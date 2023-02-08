@@ -2,49 +2,53 @@ L̲o̲g̲g̲i̲n̲g̲ ̲s̲u̲b̲-̲s̲y̲s̲t̲e̲m̲ ̲s̲t̲a̲t̲u̲s
 
 Transaction:
 Transaction_ID:	
-253182776702604808771369779956596807057
+182154745329593695499808747727728308376
 sub_transaction1:	
-	transID:	253185368255800650357852464779212297617
+	transID:	182154745408821858015992181712485511320
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 11:52:32
+	trans_time:	08/02/2023 14:21:22
 	accountID:	312345c
 	trans_completed:	True
 	note:	success
 sub_transaction2:	
-	transID:	253185436392020412625182795227009586577
+	transID:	182154745488050020530536305432879853720
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 11:52:32
+	trans_time:	08/02/2023 14:21:22
 	accountID:	312345c
 	trans_completed:	True
 	note:	success
 before_image:	
 	[['112345c', 3425], ['212345c', 2119], ['312345c', 786324], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 987613], ['412345s', 65734], ['512345s', 98346]]
+commit_status:	
+	True
 
 
 Transaction:
 Transaction_ID:	
-253188546889680722643076717762499777937
+182199075229540001711875731012721995928
 sub_transaction1:	
-	transID:	253188600764831232342826281372386006417
+	transID:	182199075308768164223826062822727643288
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 11:52:32
+	trans_time:	08/02/2023 14:21:22
 	accountID:	312345c
 	trans_completed:	True
 	note:	success
 sub_transaction2:	
-	transID:	253188653847700116899932469046832731537
+	transID:	182199075387996326741527209881908703384
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 11:52:32
+	trans_time:	08/02/2023 14:21:22
 	accountID:	312345c
 	trans_completed:	False
 	note:	invalid deposit account id
 before_image:	
 	[['112345c', 3425], ['212345c', 2119], ['312345c', 686324], ['412345c', 129876], ['512345c', 19865], ['112345s', 98765], ['212345s', 34567], ['312345s', 1087613], ['412345s', 65734], ['512345s', 98346]]
+commit_status:	
+	False
