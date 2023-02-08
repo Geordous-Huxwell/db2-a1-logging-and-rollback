@@ -170,7 +170,7 @@ def fail_driver():
     amount = 100000
     executeTransfer(chequing_acct, savings_acct, amount)
     print(log)
-    commitCheck(log[0]['Transaction_ID'])
+    commitCheck(log[transaction_counter]['Transaction_ID'])
 
 # This function saves the Transactions information to a file called file.txt
 def saveToFile():
