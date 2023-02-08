@@ -140,6 +140,11 @@ def commitCheck(transaction_id):
 
 def commit():
     print("commit")
+    with open('testy.csv', 'w', newline='') as csvfile:
+        twriter = csv.writer(csvfile, delimiter=',',
+                            quotechar=',', quoting=csv.QUOTE_MINIMAL)
+        for row in account_balance_data:
+            twriter.writerow(row)
 
 def rollback(transaction_id):
     global log, account_balance_data
@@ -158,9 +163,7 @@ file_reader('customer','Assignment-1/Data-Assignment-1/csv/customer.csv')
 file_reader('account_balance','Assignment-1/Data-Assignment-1/csv/account-balance.csv')
 file_reader('account','Assignment-1/Data-Assignment-1/csv/account.csv')
 
-# print(customer_data)
-# print(getCustomerById('3'))
-# print(getAccountsByCustId('3'))
+
 
 def success_driver():
     customer = getCustomerById('3')
@@ -171,7 +174,6 @@ def success_driver():
     chequing_bal = getAccountBalanceById(chequing_acct)
     savings_bal = getAccountBalanceById(savings_acct)
     amount = 100000
-
     print(getAccountBalanceById(chequing_acct))
 
     executeTransfer(chequing_acct, savings_acct, amount)
@@ -188,8 +190,10 @@ def fail_driver():
     print(log)
     commitCheck(log[0]['Transaction_ID'])
 
+# Note this is going into a new testy file atm we can change after!
+ 
 
-fail_driver()
+# fail_driver()
 
 success_driver()
 
