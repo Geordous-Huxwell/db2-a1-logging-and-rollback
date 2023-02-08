@@ -190,16 +190,42 @@ def fail_driver():
     print(log)
     commitCheck(log[0]['Transaction_ID'])
 
+# This function saves the Transactions information to a file called file.txt
+def saveToFile():
+      with open("file.txt", "w") as f:
+        f.write("\u0332".join("Logging sub-system status"))
+        count = 1
+        for arrayOb in range(0,len(log)):
+            # f.write(f'\n\nLog {count}:\n')
+            f.write('\n\nTransaction:\n')
+            counter= 0
+            for key in log[arrayOb]:
+
+                f.write(f'{key}:\t\n')
+                if key=='Transaction_ID' :
+                    f.write(f'{log[arrayOb][key]}\n')
+                elif key=='sub_transaction1':
+                    for ob in log[arrayOb]['sub_transaction1']:
+                        f.write(f'\t{ob}:\t{log[arrayOb][key][ob]}\n')
+                elif key == 'sub_transaction2':
+                    for ob in log[arrayOb]['sub_transaction2']:
+                        f.write(f'\t{ob}:\t{log[arrayOb][key][ob]}\n')
+                else:
+                    f.write(f'\t{log[arrayOb][key]}\n')
+                    # for ob in App.log[arrayOb]['before_image']:
+                    #    print("\t",App.log[arrayOb]['before_image'][ob])
+                counter += 1
+            count+= 1
 # Note this is going into a new testy file atm we can change after!
- 
+
 
 # fail_driver()
 
 # success_driver()
 
-print('DATABASE:',db)
-print('DB2', db2)
-print(customer_data)
+# print('DATABASE:',db)
+
+# print(customer_data)
 
 # Your Code
 # import csv

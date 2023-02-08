@@ -2,22 +2,22 @@ L̲o̲g̲g̲i̲n̲g̲ ̲s̲u̲b̲-̲s̲y̲s̲t̲e̲m̲ ̲s̲t̲a̲t̲u̲s
 
 Transaction:
 Transaction_ID:	
-260056441424879118049827897961178142097
+253182776702604808771369779956596807057
 sub_transaction1:	
-	transID:	260056762298937300820395151814177002897
+	transID:	253185368255800650357852464779212297617
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 11:45:31
+	trans_time:	08/02/2023 11:52:32
 	accountID:	312345c
 	trans_completed:	True
 	note:	success
 sub_transaction2:	
-	transID:	260056929470360205918147474191912211857
+	transID:	253185436392020412625182795227009586577
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 11:45:31
+	trans_time:	08/02/2023 11:52:32
 	accountID:	312345c
 	trans_completed:	True
 	note:	success
@@ -27,22 +27,22 @@ before_image:
 
 Transaction:
 Transaction_ID:	
-260058709727171901437813201124476261777
+253188546889680722643076717762499777937
 sub_transaction1:	
-	transID:	260058751718098033997912125702769939857
+	transID:	253188600764831232342826281372386006417
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 11:45:31
+	trans_time:	08/02/2023 11:52:32
 	accountID:	312345c
 	trans_completed:	True
 	note:	success
 sub_transaction2:	
-	transID:	260058797670432292271227929958261134737
+	transID:	253188653847700116899932469046832731537
 	table_name:	account_balance
 	operation:	update
 	attribute_name:	balance
-	trans_time:	08/02/2023 11:45:31
+	trans_time:	08/02/2023 11:52:32
 	accountID:	312345c
 	trans_completed:	False
 	note:	invalid deposit account id
