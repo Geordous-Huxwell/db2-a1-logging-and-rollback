@@ -26,7 +26,7 @@ def file_reader(tablename, filepath):
             account_balance_data = [[row[0], int(row[1])] for row in account_balance_data]
             # print(account_balance_data)
 
-    db = {'customer_data': customer_data, 'account_data': account_data, 'account_balance_data': account_balance_data}
+    db = {'customer': customer_data, 'account': account_data, 'account-balance': account_balance_data}
         
 def getCustomerById(id):
     for customer in customer_data:
@@ -139,12 +139,17 @@ def commitCheck(transaction_id):
     
 
 def commit():
+    global db
     print("commit")
-    with open('testy.csv', 'w', newline='') as csvfile:
-        twriter = csv.writer(csvfile, delimiter=',',
+    fileNames=db.keys()
+    
+    for fileName in fileNames:
+        with open(f'Assignment-1/Data-Assignment-1/csv/{fileName}.csv', 'w', newline='') as csvfile:
+            twriter = csv.writer(csvfile, delimiter=',',
                             quotechar=',', quoting=csv.QUOTE_MINIMAL)
-        for row in account_balance_data:
-            twriter.writerow(row)
+            currList = db[fileName]
+            for row in currList:
+                twriter.writerow(row)
 
 def rollback(transaction_id):
     global log, account_balance_data
@@ -171,8 +176,8 @@ def success_driver():
     chequing_acct = customer_accts[1]
     savings_acct = customer_accts[2]
 
-    chequing_bal = getAccountBalanceById(chequing_acct)
-    savings_bal = getAccountBalanceById(savings_acct)
+    # chequing_bal = getAccountBalanceById(chequing_acct)
+    # savings_bal = getAccountBalanceById(savings_acct)
     amount = 100000
     print(getAccountBalanceById(chequing_acct))
 
@@ -188,11 +193,11 @@ def fail_driver():
     amount = 100000
     executeTransfer(chequing_acct, savings_acct, amount)
     print(log)
-    commitCheck(log[0]['Transaction_ID'])
+    commitCheck(log[1]['Transaction_ID'])
 
 # This function saves the Transactions information to a file called file.txt
-def saveToFile():
-      with open("file.txt", "w") as f:
+def saveToLog():
+    with open("file.txt", "w") as f:
         f.write("\u0332".join("Logging sub-system status"))
         count = 1
         for arrayOb in range(0,len(log)):

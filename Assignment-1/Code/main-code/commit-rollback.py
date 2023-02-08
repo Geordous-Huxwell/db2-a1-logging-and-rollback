@@ -66,7 +66,7 @@ def main():
     print("------------------After BLOCK TRANSACTION 2---------------------------")
     printLog()
     print("---------------------------------------------")
-    App.saveToFile()
+    App.saveToLog()
 
 
 ## this function is called to print out the current status of the Log
