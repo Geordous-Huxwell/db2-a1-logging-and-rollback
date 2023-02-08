@@ -9,11 +9,13 @@ log = []
 customer_data = []
 account_data = []
 account_balance_data = []
+db = {}
+
 sub_trans_counter = 1
 transaction_counter = 0 #read log file to get initial value by reading num rows
 
 def file_reader(tablename, filepath):
-    global customer_data, account_data, account_balance_data
+    global customer_data, account_data, account_balance_data, db
     with open(filepath, 'r') as file:
         if tablename == 'customer':
             customer_data = list(csv.reader(file))
@@ -23,6 +25,8 @@ def file_reader(tablename, filepath):
             account_balance_data = list(csv.reader(file))
             account_balance_data = [[row[0], int(row[1])] for row in account_balance_data]
             # print(account_balance_data)
+
+    db = {'customer_data': customer_data, 'account_data': account_data, 'account_balance_data': account_balance_data}
         
 def getCustomerById(id):
     for customer in customer_data:
@@ -189,7 +193,9 @@ fail_driver()
 
 success_driver()
 
-
+print('DATABASE:',db)
+print('DB2', db2)
+print(customer_data)
 
 # Your Code
 # import csv
