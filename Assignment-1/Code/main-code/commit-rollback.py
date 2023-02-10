@@ -63,10 +63,9 @@ def main():
     print("Subtract money from one account (Same Transaction than before)")
     print("\t Initial Contents of Account_Balance")
     print(tabulate(App.account_balance_data, headers=["Account Number", "Balance"],tablefmt="grid"))
-
-    print("Failure occurs!!!!!!! ACTION REQUIRED")
    
     App.fail_driver()
+    print("\nFailure occurs!!!!!!! ACTION REQUIRED")
     print("Must either AUTOMATICALLY Roll-back Database to a state of equilibrium (Bonus), OR\nSTOP Operations and show: (a) Log-Status, and (b) Databases Contents.\n")
     print("\nThe Log Sub-system contents should show the necessary operations needed to fix the situation!")
     print("\t Contents of Account_Balance")

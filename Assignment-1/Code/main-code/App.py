@@ -111,7 +111,8 @@ def logger(acct_id, before_image, trans_completed, note):
     
     sub_trans_counter += 1
  
-
+# this function checks the sub transactoins trans_completed value and checks to see if both sub transactions 
+# are true, then we commit the block transaction and changes the  if true then commit 
 def commitCheck(transaction_id):
     global log, transaction_counter, sub_trans_counter
     for transaction in log:
