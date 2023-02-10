@@ -124,8 +124,6 @@ def logger(acct_id, before_image, trans_completed, note):
     
     sub_trans_counter += 1
  
-# this function checks the sub transactoins trans_completed value and checks to see if both sub transactions 
-# are true, then we commit the block transaction and changes the  if true then commit 
 def commitCheck(transaction_id):
     """checks if a transaction is ready to be committed or needs to be rolled back to before image"""
     global log, transaction_counter, sub_trans_counter
@@ -205,7 +203,7 @@ def fail_driver():
     commitCheck(log[transaction_counter]['Transaction_ID'])
 
 
-def saveToFile():
+def saveToLog():
     """saves the transaction log to a file"""
     with open("file.txt", "w", encoding="utf-8") as f:
         f.write("\u0332".join("Logging sub-system status"))

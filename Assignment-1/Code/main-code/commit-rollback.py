@@ -1,11 +1,7 @@
 import App 
 from tabulate import tabulate
-from decimal import Decimal
-import numpy as np
-import pandas 
-# import 'your-code.py' as app;
 
-# from code import yourCode
+
 
 # Skeleton for commit and roll-back exercise    
 
@@ -28,37 +24,30 @@ def main():
     print("------------------Initial Status of the Log Sub-System---------------------------")
     printLog()
     print("---------------------------------------------------------------------------------")
-    # print (tabulate(App.log, headers=["Transaction ID", "Table Name","Operation","Attribute Name","Transaction Time", "Account ID", "Before Transaction", "After Transaction" , "Transaction Complete", "Note"], tablefmt="grid"))
-
-
-
+    
     # Transaction Block 1: Successful
     print("\n\nBLOCK TRANSACTION 1")
     print("Subtract money from one account.")
     print("Add money to second one")
     print("COMMIT all your changes")
     App.success_driver()
-    # read value of sub transaction 1 note 
-    # read value of sub transaction 2 value 
     printOutNote(0)
     print("Print Contents of Databases")
     print("\t Contents of Customers")
     cusD = App.customer_data 
     print(tabulate(cusD, headers=["Id","Last Name", "First Name", "Address", "City", "Age"],tablefmt="grid"))
-    
     print("\t Contents of Account")
     accD= App.account_data
     print(tabulate(accD, headers=["Id", "Checking Account", "Saving Account"],tablefmt="grid"))
-    
     print("\t Contents of Account_Balance")
     accDB2= App.account_balance_data
     print(tabulate(accDB2, headers=["Account Number", "Balance"],tablefmt="grid"))
-    
     print("Print current status of Log Sub-system\n")
     print("------------------After BLOCK TRANSACTION 1---------------------------")
     printLog()
     print("---------------------------------------------\n\n\n")
     
+    # Transaction Block 2: Failed
     print("BLOCK TRANSACTION 2")
     print("Subtract money from one account (Same Transaction than before)")
     print("\t Initial Contents of Account_Balance")
@@ -71,35 +60,31 @@ def main():
     print("\t Contents of Account_Balance")
     accDB3= App.account_balance_data
     print(tabulate(accDB3, headers=["Account Number", "Balance"],tablefmt="grid"))
-
     print("Print current status of Log Sub-system\n")
     print("------------------After BLOCK TRANSACTION 2---------------------------")
     printLog()
-    print("---------------------------------------------")
+    print("----------------------------------------------------------------------")
     App.saveToLog()
     printOutNote(1)
 
 
 def printOutNote(num):
+    """outputs the status of the current sub-transactions and the commit status of the block transaction"""
     if App.log:
         count1 =0
-
-        # for arrayOb in App.log:
         print("Transaction_Id:\t",App.log[num]['Transaction_ID'])
         print("\tSub_transaction1 - Status:\t",App.log[num]['sub_transaction1']['note'])
         print("\tSub_Transaction2 - Status:\t",App.log[num]['sub_transaction2']['note'])
         print("\tCommit Status:\t",App.log[num]['commit_status'])
 
-## this function is called to print out the current status of the Log
 def printLog():
+    """outputs the current status of the log system"""
     if App.log:
         count1 =0
         for arrayOb in range(0,len(App.log)):
             print("Log",count1+1)
-            # print("New Log:\n")
             counter1 =0
             for key in App.log[arrayOb]:
-                # print(key,":\t",App.log[arrayOb][key])
                 print(key,":\t")
                 if key=='Transaction_ID' :
                     print(App.log[arrayOb]['Transaction_ID'])
